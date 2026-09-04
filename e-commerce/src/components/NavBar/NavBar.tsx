@@ -1,47 +1,79 @@
+import { useState } from "react";
+import { Search, ShoppingCart } from "lucide-react";
+
 import "./NavBar.css";
 import logo from "../../assets/ole.e94be128.svg";
+import ProductSearchBar from "../ProductSearchBar/ProductSearchBar";
+import NavigationMenu from "../NavigationMenu/NavigationMenu";
+import SignInButton from "../SignInButton/SignInButton";
 
-function NavBar() {
+interface NavBarProps {
+    onSearch: (query: string) => void;
+}
+
+function NavBar({ onSearch }: NavBarProps) {
+    const [searchTerm, setSearchTerm] = useState("");
+
+    const handleSearch = () => {
+        onSearch(searchTerm);
+    };
+
     return (
         <nav className="navbar">
+            {/* Navigation Menu */}
+            <NavigationMenu />
 
             {/* Logo */}
             <div className="navbar-logo">
-                <img
-                    src={logo}
-                    alt="Online Express"
-                />
+                <img src={logo} alt="Online Express" />
             </div>
 
-            {/* Search Bar */}
+            {/* Search */}
             <div className="navbar-search">
-                <input
-                    type="text"
-                    placeholder="Search construction parts..."
-                />
-
-                <button type="button" aria-label="Search">
-                    <span className="search-icon"></span>
+                {/* Mobile Search Icon */}
+                <button
+                    className="mobile-search-btn"
+                    type="button"
+                    aria-label="Search"
+                >
+                    <Search
+                        size={21}
+                        strokeWidth={2}
+                        aria-hidden="true"
+                    />
                 </button>
+
+                {/* Search Bar */}
+                <div className="search-input-wrapper">
+                    <ProductSearchBar
+                        value={searchTerm}
+                        placeholder="Search construction parts..."
+                        onChange={setSearchTerm}
+                        onSearch={handleSearch}
+                    />
+                </div>
             </div>
 
             {/* Right Side */}
             <div className="navbar-actions">
-
-                {/* Sign In */}
-                <button className="signin-btn" type="button">
-                    Sign In
-                </button>
+                <SignInButton className="navbar-signin" />
 
                 {/* Cart */}
-                <button className="cart-btn" type="button">
-                    <span className="cart-icon">🛒</span>
-                    <span>Cart</span>
+                <button
+                    className="cart-btn"
+                    type="button"
+                >
+                    <ShoppingCart
+                        size={20}
+                        strokeWidth={2}
+                        aria-hidden="true"
+                    />
+
+                    <span className="cart-label">Cart</span>
+
                     <span className="cart-count">2</span>
                 </button>
-
             </div>
-
         </nav>
     );
 }

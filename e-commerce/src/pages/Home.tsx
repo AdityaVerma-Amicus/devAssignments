@@ -1,23 +1,27 @@
-import NavBar from '../components/NavBar/NavBar'
-import Hero from '../components/Hero/Hero'
+import Hero from "../components/Hero/Hero";
 import Categories from "../components/Categories/Categories";
 import FeaturedParts from "../components/FeaturedParts/FeaturedParts";
 import PopularCategories from "../components/PopularCategories/PopularCategories";
-import Footer from "../components/Footer/Footer";
+import PageContainer from "../components/Layout/PageContainer/PageContainer";
 
-function Home() {
-  
+interface HomeProps {
+    onSearch: (query: string) => void;
+}
 
-  return (
-    <>
-      <NavBar />
-      <Hero />
-      <Categories />
-      <FeaturedParts />
-      <PopularCategories />
-      <Footer />
-    </>
-  )
-} 
+function Home({ onSearch }: HomeProps) {
+    return (
+        <>
+            <Hero onSearch={onSearch} />
 
-export default Home
+            <main>
+                <PageContainer>
+                    <Categories />
+                    <FeaturedParts />
+                    <PopularCategories />
+                </PageContainer>
+            </main>
+        </>
+    );
+}
+
+export default Home;

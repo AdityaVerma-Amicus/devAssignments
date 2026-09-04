@@ -1,6 +1,6 @@
 import type { ProductApiResponse } from "../data/products";
 
-const PRODUCTS_API_URL = "https://dummyjson.com/products/";
+const PRODUCTS_API_URL = "https://dummyjson.com/products";
 
 export interface ProductsApiResponse {
     products: ProductApiResponse[];
@@ -16,11 +16,10 @@ export async function fetchProducts(
     sortBy: string = "",
     order: string = "",
     limit: number = 20,
-    skip: number = 0
+    skip: number = 0,
 ): Promise<ProductsApiResponse> {
     let url = PRODUCTS_API_URL;
 
-    // Determine API endpoint
     if (category) {
         url = `${PRODUCTS_API_URL}/category/${category}`;
     } else if (searchTerm.trim()) {
@@ -29,16 +28,13 @@ export async function fetchProducts(
 
     const params = new URLSearchParams();
 
-    // Search query
     if (!category && searchTerm.trim()) {
         params.append("q", searchTerm.trim());
     }
 
-    // Pagination
     params.append("limit", limit.toString());
     params.append("skip", skip.toString());
 
-    // Sorting
     if (sortBy) {
         params.append("sortBy", sortBy);
     }
@@ -47,9 +43,7 @@ export async function fetchProducts(
         params.append("order", order);
     }
 
-    url += `?${params.toString()}`;
-
-    const response = await fetch(url, {
+    const response = await fetch(`${url}?${params.toString()}`, {
         signal,
     });
 
